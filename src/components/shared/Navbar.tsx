@@ -1,18 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { UserOutlined } from "@ant-design/icons";
 import {
   Bars3BottomRightIcon,
   // BookOpenIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
+import { Avatar, Dropdown, MenuProps, Space } from "antd";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import blueLogo from "../../assets/images/logo-blue1.png";
+import HomePageModal from "../../pages/home/homePageModal";
 import { getUserInfo, removeUserInfo } from "../../services/auth.service";
 import GlobalModal from "./GlobalModal";
-import HomePageModal from "../../pages/home/homePageModal";
 
 const Navbar = () => {
-  const { role, accessToken } = getUserInfo() as any;
+  const { role } = getUserInfo() as any;
   const navigate = useNavigate();
 
   const Links = [
@@ -27,6 +29,33 @@ const Navbar = () => {
   const handleLogout = (accessToken: string) => {
     removeUserInfo(accessToken);
     return navigate("/login");
+  };
+
+  const items: MenuProps["items"] = [];
+
+  if (role === "applicant") {
+    items.push(
+      {
+        key: "1",
+        label: <Link to={`/user-profile`}>MyProfile</Link>,
+      },
+      {
+        key: "2",
+        label: <Link to={`/edit-resume`}>Edit Resume</Link>,
+      },
+      {
+        key: "3",
+        label: <Link to={`/my-application`}>My Application</Link>,
+      }
+    );
+  }
+
+  const handleJobPost = () => {
+    if (role === "recruiter") {
+      return navigate("/dashboard/job/create");
+    } else {
+      setModalOpen(true);
+    }
   };
 
   return (
@@ -96,22 +125,44 @@ const Navbar = () => {
               </button>
             </Link>
           )}
-          <button className="btn bg-[#1967d2] text-white md:ml-8  px-6 py-3 rounded-full duration-500 md:static text-sm ml-3" onClick={() => setModalOpen(true)}>
-            Job post
-          </button>
+
+          {role !== "applicant" && (
+            <button
+              className="btn bg-[#1967d2] text-white md:ml-8  px-6 py-3 rounded-full duration-500 md:static text-sm mr-3"
+              onClick={handleJobPost}
+            >
+              Job post
+            </button>
+          )}
+
+          {role === "applicant" && (
+            <Space
+              size={16}
+              wrap
+              style={{
+                margin: "0rem 2rem",
+              }}
+            >
+              <Dropdown menu={{ items }}>
+                <Space wrap size={16}>
+                  <Avatar size={50} icon={<UserOutlined />} />
+                </Space>
+              </Dropdown>
+            </Space>
+          )}
         </ul>
         {/* button */}
       </div>
       <GlobalModal
-          open={modalOpen}
-          setOpen={setModalOpen}
-          width={600}
-          title={"Let's create your account"}
-        >
-          <div className="">
-            <HomePageModal></HomePageModal>
-          </div>
-        </GlobalModal>
+        open={modalOpen}
+        setOpen={setModalOpen}
+        width={600}
+        title={"Let's create your account"}
+      >
+        <div className="">
+          <HomePageModal></HomePageModal>
+        </div>
+      </GlobalModal>
     </div>
   );
 };
