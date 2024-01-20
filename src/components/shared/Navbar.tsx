@@ -1,149 +1,89 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import blueLogo from "../../assets/images/1-removebg-preview.png";
-
 import {
-  MenuOutlined,
-  QuestionCircleOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import {
-  Avatar,
-  Button,
-  Divider,
-  Drawer,
-  Dropdown,
-  Menu,
-  MenuProps,
-  Space,
-} from "antd";
-
+  Bars3BottomRightIcon,
+  // BookOpenIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import blueLogo from "../../assets/images/logo-blue1.png";
 import { getUserInfo, removeUserInfo } from "../../services/auth.service";
+import GlobalModal from "./GlobalModal";
+import HomePageModal from "../../pages/home/homePageModal";
 
-const NavBar = () => {
-  const [openMenu, setOpenMenu] = useState(false);
-
-  const navigate = useNavigate();
+const Navbar = () => {
   const { role, accessToken } = getUserInfo() as any;
-  console.log(role);
-  console.log(accessToken);
+  const navigate = useNavigate();
+
+  const Links = [
+    { name: "Home", link: "/" },
+    { name: "Contact", link: "/contact" },
+    { name: "Blog", link: "/blog" },
+  ];
+  const [open, setOpen] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleLogout = (accessToken: string) => {
     removeUserInfo(accessToken);
     return navigate("/login");
   };
 
-  const items: MenuProps["items"] = [];
-
-  if (role === "applicant") {
-    items.push(
-      {
-        key: "1",
-        label: <Link to={`/user-profile`}>MyProfile</Link>,
-      },
-      {
-        key: "2",
-        label: <Link to={`/edit-resume`}>Edit Resume</Link>,
-      },
-      {
-        key: "3",
-        label: <Link to={`/my-application`}>My Application</Link>,
-      }
-    );
-  }
-
   return (
-    <div style={{}}>
+    <div className="shadow-md w-full fixed top-0 left-0 z-10">
       <div
+        className="md:flex items-center justify-between py-1 md:px-10 px-7"
         style={{
-          backgroundColor: "#2d2d2d",
-          height: "4rem",
-          padding: "0rem 1rem",
-        }}
-        className="menuIcon"
-      >
-        <MenuOutlined
-          style={{ color: "white", fontSize: "30px" }}
-          onClick={() => {
-            setOpenMenu(true);
-          }}
-        />
-      </div>
-      <div
-        className="headerMenu"
-        style={{
-          backgroundColor: "#2d2d2d",
-          height: "4rem",
-          padding: "0rem 1rem",
-          width: "100%",
+          background: "rgba(0,0,0,0)",
+          backdropFilter: "blur(8px)",
         }}
       >
-        <Link to="/">
-          {" "}
-          <img
-            src={blueLogo}
-            alt="Logo"
-            width={200}
-            style={{ marginRight: "10px", height: "80px" }}
-          />
-        </Link>
-        <NavMenu />
+        {/* logo section */}
+        <div className="font-bold text-2xl cursor-pointer flex items-center gap-1">
+          {/* <BookOpenIcon className="w-7 h-7 text-blue-600" /> */}
+          <Link to={"/"}>
+            <img src={blueLogo} className="w-[7rem] lg:w-[10rem]" alt="" />
+          </Link>
+        </div>
+        {/* Menu icon */}
         <div
+          onClick={() => setOpen(!open)}
+          className="absolute right-8 top-4 cursor-pointer md:hidden w-7 h-7"
+        >
+          {open ? <XMarkIcon /> : <Bars3BottomRightIcon />}
+        </div>
+        {/* linke items */}
+        <ul
+          className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static md:bg-transparent bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
+            open ? "top-12 block" : "top-[-490px]"
+          }`}
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            backdropFilter: "blur(8px)",
           }}
         >
-          <Link
-            to="/career-services"
-            style={{
-              color: "white",
-              fontSize: "0.9rem",
-              backgroundColor: "#2d2d2d",
-              border: "none",
-              textDecoration: "none",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "7rem",
-            }}
-          >
-            <p>Help Center</p>
-            <QuestionCircleOutlined
-              style={{
-                fontWeight: "bolder",
-                fontSize: "1.2rem",
-                marginLeft: "0.4rem",
-              }}
-            />
-          </Link>
-          <Divider
-            type="vertical"
-            style={{
-              backgroundColor: "#949494",
-              height: "2rem",
-              margin: "0 1.5rem",
-            }}
-          />
+          {Links.map((link, index) => (
+            // <Link to='#service'>
+            <li
+              key={index}
+              className="md:ml-8 md:my-0 my-7 font-semibold uppercase"
+            >
+              <Link
+                to={link.link}
+                className="text-gray-700 hover:text-[#017dfc] duration-500"
+              >
+                {link.name}
+              </Link>
+            </li>
+            // </Link>
+          ))}
 
           {role ? (
-            <Button
+            <button
               onClick={() => handleLogout("accessToken")}
-              size="large"
-              type="primary"
-              style={{
-                fontSize: "1rem",
-                fontWeight: "bold",
-                borderRadius: "5px",
-                border: "none",
-                cursor: "pointer",
-              }}
+              className="btn border-2 border-[#21286a] text-[#21286a] hover:bg-[#21286a] hover:text-white md:ml-8  px-6 py-3 rounded-full duration-500 md:static text-sm"
             >
-              Log out
-            </Button>
+              Logout
+            </button>
           ) : (
             <Link
               to={"/login"}
@@ -151,133 +91,29 @@ const NavBar = () => {
                 cursor: "pointer",
               }}
             >
-              <button
-                style={{
-                  backgroundColor: "#2557a7",
-                  color: "white",
-                  fontSize: "1rem",
-                  fontWeight: "bold",
-                  padding: "0.6rem 1rem",
-                  borderRadius: "5px",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              >
-                Login
+              <button className="btn border-2 border-[#21286a] text-[#21286a] hover:bg-[#21286a] hover:text-white md:ml-8  px-6 py-3 rounded-full duration-500 md:static text-sm">
+                Login / Register
               </button>
             </Link>
           )}
-
-          <Divider
-            type="vertical"
-            style={{
-              backgroundColor: "#949494",
-              height: "2rem",
-              margin: "0 1.5rem",
-            }}
-          />
-          <Link
-            to="/find-job"
-            style={{
-              color: "white",
-              fontSize: "0.9rem",
-              backgroundColor: "#2d2d2d",
-              border: "none",
-              textDecoration: "none",
-              width: "8rem",
-            }}
-          >
-            Find jobs
-          </Link>
-        </div>
-        {role === "applicant" && (
-          <Space size={16} wrap>
-            <Dropdown menu={{ items }}>
-              <Space wrap size={16}>
-                <Avatar
-                  style={{ backgroundColor: "#87d068" }}
-                  icon={<UserOutlined />}
-                />
-              </Space>
-            </Dropdown>
-          </Space>
-        )}
+          <button className="btn bg-[#1967d2] text-white md:ml-8  px-6 py-3 rounded-full duration-500 md:static text-sm ml-3" onClick={() => setModalOpen(true)}>
+            Job post
+          </button>
+        </ul>
+        {/* button */}
       </div>
-      <Drawer
-        // placement="left"
-        open={openMenu}
-        onClose={() => {
-          setOpenMenu(false);
-        }}
-        closable={false}
-        style={{ backgroundColor: "#2d2d2d" }}
-      >
-        <NavMenu isInline />
-      </Drawer>
+      <GlobalModal
+          open={modalOpen}
+          setOpen={setModalOpen}
+          width={600}
+          title={"Let's create your account"}
+        >
+          <div className="">
+            <HomePageModal></HomePageModal>
+          </div>
+        </GlobalModal>
     </div>
   );
 };
 
-const NavMenu = ({ isInline = false }) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: "100%",
-      }}
-    >
-      <Menu
-        style={{
-          color: "white",
-          fontSize: "0.9rem",
-          backgroundColor: "#2d2d2d",
-          border: "none",
-        }}
-        mode={isInline ? "inline" : "horizontal"}
-        className="custom-menu" // Add className here
-        items={[
-          {
-            label: (
-              <Link
-                to="/"
-                // target="_blank"
-                rel="noopener noreferrer"
-              >
-                Home
-              </Link>
-            ),
-            key: "home",
-          },
-          {
-            label: (
-              <Link
-                to="/contact"
-                // target="_blank"
-                rel="noopener noreferrer"
-              >
-                Contact
-              </Link>
-            ),
-            key: "contact",
-          },
-          {
-            label: (
-              <Link
-                to="/blog"
-                // target="_blank"
-                rel="noopener noreferrer"
-              >
-                Blog
-              </Link>
-            ),
-            key: "blog",
-          },
-        ]}
-      ></Menu>
-    </div>
-  );
-};
-
-export default NavBar;
+export default Navbar;

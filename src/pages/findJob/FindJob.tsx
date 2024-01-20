@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useJobsQuery } from "../../redux/api/jobApi";
-import { Button, Card, Checkbox, Col, Divider, Flex, Input, Row } from "antd";
-import { IJobData } from "../../types";
 import { RiseOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Button, Card, Checkbox, Col, Divider, Flex, Input, Row } from "antd";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useJobsQuery } from "../../redux/api/jobApi";
+import { IJobData } from "../../types";
 
 const FindJob = () => {
   const query: Record<string, any> = {};
@@ -17,6 +17,8 @@ const FindJob = () => {
 
   // Search jobs
   const handleSearch = async () => {
+    console.log(searchQuery);
+    
     try {
       const res = await fetch(
         `https://career-connect-hub-api.vercel.app/api/v1/jobs?searchTerm=${searchQuery}`
@@ -33,7 +35,7 @@ const FindJob = () => {
   }
 
   return (
-    <div style={{ minHeight: "100vh", margin: "30px 50px" }}>
+    <div style={{ minHeight: "100vh", margin: "7rem 50px" }}>
       <div
         style={{
           textAlign: "center",
@@ -65,16 +67,38 @@ const FindJob = () => {
           >
             Search Criteria
           </h3>
-          <Flex>
+          <Flex style={{
+            borderRadius: "5px",
+            padding: "5px 10px",
+            fontSize: "18px",
+            border: "2px solid #21286a",
+          }}>
             <Input
               placeholder="Search for jobs"
               size="large"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                borderRadius: "5px",
+                padding: "0 10px",
+                fontSize: "18px",
+                border: "none",
+                outline: "none",
+              }}
             />
-            <Button type="primary" onClick={handleSearch} size="large">
+            <Button type="primary" onClick={handleSearch} size="large" style={{
+              borderRadius: "5px",
+              marginLeft: "10px",
+              padding: "0 30px",
+              fontSize: "18px",
+              background: "#21286a",
+              color: "white",
+              border: "none",
+                  
+                  }}>
               Search
             </Button>
+
           </Flex>
 
           <Divider plain>Or</Divider>
