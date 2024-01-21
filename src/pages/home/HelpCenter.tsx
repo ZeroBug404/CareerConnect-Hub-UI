@@ -20,9 +20,7 @@ const HelpCenter = () => {
             </p>
             <Link to="/career-services">
               <button
-                data-aos="zoom-in"
-                data-aos-easing="ease-out-cubic"
-                data-aos-duration="1000"
+                className="bg-[#21286a] text-white hover:text-[#21286a] rounded-full text-base px-8 py-4 border-2 hover:bg-white hover:border-[#21286a] focus:bg-indigo-600 focus:outline-none transition-all w-full lg:w-44"
               >
                 Start Exploring
               </button>

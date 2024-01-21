@@ -10,6 +10,7 @@ const Contact = () => {
         align="middle"
         style={{
           backgroundColor: "#EEEEEE",
+          marginTop: "4rem",
         }}
       >
         <Col

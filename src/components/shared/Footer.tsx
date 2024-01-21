@@ -11,7 +11,7 @@ const Footer = () => {
   return (
     <div
       style={{
-        backgroundColor: "#123770",
+        backgroundColor: "#21286a",
         color: "white",
         textAlign: "center",
         padding: "30px 10px",
@@ -57,7 +57,6 @@ const Footer = () => {
             style={{
               fontSize: "24px",
             }}
-            data-aos="flip-up"
             data-aos-duration="2000"
           >
             <FacebookFilled
@@ -67,6 +66,7 @@ const Footer = () => {
                 padding: "12px",
                 cursor: "pointer",
               }}
+              className="hover:bg-[#1967d2] transition-all"
             />
 
             <LinkedinFilled
@@ -76,6 +76,7 @@ const Footer = () => {
                 padding: "12px",
                 cursor: "pointer",
               }}
+              className="hover:bg-[#1967d2] transition-all"
             />
 
             <TwitterSquareFilled
@@ -85,6 +86,7 @@ const Footer = () => {
                 padding: "12px",
                 cursor: "pointer",
               }}
+              className="hover:bg-[#1967d2] transition-all"
             />
 
             <YoutubeFilled
@@ -94,6 +96,7 @@ const Footer = () => {
                 padding: "12px",
                 cursor: "pointer",
               }}
+              className="hover:bg-[#1967d2] transition-all"
             />
           </Flex>
         </Col>

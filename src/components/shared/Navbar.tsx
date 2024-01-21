@@ -21,6 +21,7 @@ const Navbar = () => {
     { name: "Home", link: "/" },
     { name: "Contact", link: "/contact" },
     { name: "Blog", link: "/blog" },
+    { name: "Find Jobs", link: "/find-job" },
   ];
   const [open, setOpen] = useState(false);
 
