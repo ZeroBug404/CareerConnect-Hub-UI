@@ -1,3 +1,4 @@
+import CounterPage from "./Counter";
 import HelpCenter from "./HelpCenter";
 import HomeBlog from "./HomeBlog";
 import HomePageBanner from "./HomePageBanner";
@@ -10,6 +11,7 @@ const Homepage = () => {
       <Services />
       {/* <FeaturedProfile></FeaturedProfile> */}
       <HelpCenter />
+      <CounterPage />
       <HomeBlog></HomeBlog>
     </div>
   );
