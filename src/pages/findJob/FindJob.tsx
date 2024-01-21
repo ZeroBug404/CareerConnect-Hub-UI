@@ -160,6 +160,7 @@ const FindJob = () => {
                       boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
                       borderRadius: "5px",
                       marginBottom: "10px",
+                      
                     }}
                   >
                     <div
@@ -228,6 +229,7 @@ const FindJob = () => {
                       boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
                       borderRadius: "5px",
                       marginBottom: "10px",
+                      border: "1px dashed #21286a",
                     }}
                   >
                     <div
